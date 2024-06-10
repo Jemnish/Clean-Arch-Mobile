@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_management_starter/features/auth/presentation/viewmodel/login_view_model.dart';
+import 'package:student_management_starter/features/auth/presentation/viewmodel/auth_view_model.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -82,7 +82,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     _gap,
                     ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          ref
+                              .read(loginViewModelProvider.notifier)
+                              .openHomeView();
+                        }
                       },
                       child: const SizedBox(
                         height: 50,

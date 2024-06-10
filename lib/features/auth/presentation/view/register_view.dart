@@ -3,7 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
+import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_viewmodel.dart';
+import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
+import 'package:student_management_starter/features/course/presentation/viewmodel/course_viewmodel.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
@@ -48,8 +53,15 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   final _passwordController = TextEditingController();
 
   bool isObscure = true;
+
+  BatchEntity? _dropDownValue;
+  final List<CourseEntity> _lstCourseSelected = [];
+
   @override
   Widget build(BuildContext context) {
+    var batchState = ref.watch(batchViewmodelProvider);
+    var courseState = ref.watch(courseViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
@@ -154,78 +166,81 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     }),
                   ),
                   _gap,
-                  // if (batchState.isLoading) ...{
-                  //   const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   )
-                  // } else if (batchState.error != null) ...{
-                  //   Center(
-                  //     child: Text(batchState.error!),
-                  //   )
-                  // } else ...{
-                  //   DropdownButtonFormField<BatchEntity>(
-                  //     items: batchState.batches
-                  //         .map((e) => DropdownMenuItem<BatchEntity>(
-                  //               value: e,
-                  //               child: Text(e.batchName),
-                  //             ))
-                  //         .toList(),
-                  //     onChanged: (value) {
-                  //       _dropDownValue = value;
-                  //     },
-                  //     value: _dropDownValue,
-                  //     decoration: const InputDecoration(
-                  //       labelText: 'Select Batch',
-                  //     ),
-                  //     validator: ((value) {
-                  //       if (value == null) {
-                  //         return 'Please select batch';
-                  //       }
-                  //       return null;
-                  //     }),
-                  //   ),
-                  // },
+                  if (batchState.isLoading) ...{
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  } else if (batchState.error != null) ...{
+                    Center(
+                      child: Text(batchState.error!),
+                    )
+                  } else ...{
+                    DropdownButtonFormField<BatchEntity>(
+                      items: batchState.lstBatches
+                          .map((e) => DropdownMenuItem<BatchEntity>(
+                                value: e,
+                                child: Text(e.batchName),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        _dropDownValue = value;
+                      },
+                      value: _dropDownValue,
+                      decoration: const InputDecoration(
+                        labelText: 'Select Batch',
+                      ),
+                      validator: ((value) {
+                        if (value == null) {
+                          return 'Please select batch';
+                        }
+                        return null;
+                      }),
+                    ),
+                  },
                   _gap,
-                  // if (courseState.isLoading) ...{
-                  //   const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   )
-                  // } else if (courseState.error != null) ...{
-                  //   Center(
-                  //     child: Text(courseState.error!),
-                  //   )
-                  // } else ...{
-                  //   MultiSelectDialogField(
-                  //     title: const Text('Select course'),
-                  //     items: courseState.courses
-                  //         .map(
-                  //           (course) => MultiSelectItem(
-                  //             course,
-                  //             course.courseName,
-                  //           ),
-                  //         )
-                  //         .toList(),
-                  //     listType: MultiSelectListType.CHIP,
-                  //     buttonText: const Text('Select course'),
-                  //     buttonIcon: const Icon(Icons.search),
-                  //     onConfirm: (values) {
-                  //       _lstCourseSelected.clear();
-                  //       _lstCourseSelected.addAll(values);
-                  //     },
-                  //     decoration: BoxDecoration(
-                  //       border: Border.all(
-                  //         color: Colors.grey,
-                  //       ),
-                  //       borderRadius: BorderRadius.circular(5),
-                  //     ),
-                  //     validator: ((value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return 'Please select courses';
-                  //       }
-                  //       return null;
-                  //     }),
-                  //   ),
-                  // },
+                  if (courseState.isLoading) ...{
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  } else if (courseState.error != null) ...{
+                    Center(
+                      child: Text(courseState.error!),
+                    )
+                  } else ...{
+                    MultiSelectDialogField(
+                      title: const Text('Select course'),
+                      items: courseState.lstCourses
+                          .map(
+                            (course) => MultiSelectItem(
+                              course,
+                              course.courseName,
+                            ),
+                          )
+                          .toList(),
+                      listType: MultiSelectListType.CHIP,
+                      buttonText: const Text(
+                        'Select course',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      buttonIcon: const Icon(Icons.search),
+                      onConfirm: (values) {
+                        _lstCourseSelected.clear();
+                        _lstCourseSelected.addAll(values);
+                      },
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black87,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select courses';
+                        }
+                        return null;
+                      }),
+                    ),
+                  },
                   _gap,
                   TextFormField(
                     controller: _usernameController,
@@ -264,12 +279,14 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     }),
                   ),
                   _gap,
-
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_key.currentState!.validate()) {}
-                    },
-                    child: const Text('Register'),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate()) {}
+                      },
+                      child: const Text('Register'),
+                    ),
                   ),
                 ],
               ),

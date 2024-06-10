@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/features/batch/presentation/view/batch_view.dart';
+import 'package:student_management_starter/features/course/presentation/view/course_view.dart';
+import 'package:student_management_starter/features/home/presentation/view/bottom_view/dashboard_view.dart';
+import 'package:student_management_starter/features/home/presentation/view/bottom_view/profile_view.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -10,63 +13,29 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  int _selectedIndex = 0;
-  Widget _homeView = Container();
-
-  void _onItemTapped(int index) {
-    setState(() {
-      if (index == 2) {
-        _homeView = batchView();
-      } else {
-        _homeView = Container();
-      }
-      _selectedIndex = index;
-    });
-  }
-
+  int selectedIndex = 0;
+  List<Widget> lstScreen = [
+    const DashboardView(),
+    const CourseView(),
+    const BatchView(),
+    const ProfileView(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            // Handle menu action
-          },
-        ),
-        title: const Text(
-          'DashBoard View ',
-          style: TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255), fontSize: 24),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.restart_alt_rounded),
-            onPressed: () {
-              // Handle notifications action
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
-              // Handle profile action
-            },
-          ),
-        ],
-      ),
-      body: _homeView,
+      body: lstScreen[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
+            label: 'Course',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.batch_prediction),
             label: 'Batch',
           ),
           BottomNavigationBarItem(
@@ -74,9 +43,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
-        onTap: _onItemTapped,
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
       ),
     );
   }

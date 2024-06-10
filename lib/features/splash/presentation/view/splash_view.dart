@@ -13,7 +13,6 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     ref.read(splashViewModelProvider.notifier).openLoginView();
-
     super.initState();
   }
 

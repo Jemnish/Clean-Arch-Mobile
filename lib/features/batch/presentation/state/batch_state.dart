@@ -15,7 +15,6 @@ class BatchState {
     return BatchState(
       lstBatches: [],
       isLoading: false,
-      error: null,
     );
   }
 

@@ -4,7 +4,8 @@ import 'package:student_management_starter/features/auth/presentation/navigator/
 final splashViewNavigatorProvider =
     Provider<SplashViewNavigator>((ref) => SplashViewNavigator());
 
-// This class will be used to navigate to LoginView
+// This will be used to view login view
 class SplashViewNavigator with LoginViewRoute {}
 
+// No one will call this route
 mixin SplashViewRoute {}

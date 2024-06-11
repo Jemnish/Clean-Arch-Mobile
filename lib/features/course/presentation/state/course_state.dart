@@ -1,31 +1,31 @@
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
 
 class CourseState {
+  final List<CourseEntity> lstCourses;
   final bool isLoading;
   final String? error;
-  final List<CourseEntity> lstCourses;
 
-  const CourseState({
-    required this.isLoading,
-    required this.error,
+  CourseState({
     required this.lstCourses,
+    required this.isLoading,
+    this.error,
   });
-
-  factory CourseState.initial() => const CourseState(
-        isLoading: false,
-        error: null,
-        lstCourses: [],
-      );
+  factory CourseState.initial() {
+    return CourseState(
+      lstCourses: [],
+      isLoading: false,
+    );
+  }
 
   CourseState copyWith({
+    List<CourseEntity>? lstCourses,
     bool? isLoading,
     String? error,
-    List<CourseEntity>? courses,
   }) {
     return CourseState(
+      lstCourses: lstCourses ?? this.lstCourses,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
-      lstCourses: courses ?? lstCourses,
     );
   }
 }

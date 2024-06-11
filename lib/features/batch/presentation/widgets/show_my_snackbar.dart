@@ -6,7 +6,6 @@ showMySnackBar({
   Color? color,
 }) {
   ScaffoldMessenger.of(
-    // We already created this navigator key in the navigator_key.dart file
     AppNavigator.navigatorKey.currentState!.context,
   ).showSnackBar(
     SnackBar(
@@ -17,4 +16,3 @@ showMySnackBar({
     ),
   );
 }
-

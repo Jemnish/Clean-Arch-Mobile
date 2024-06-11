@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_management_starter/core/common/my_snackbar.dart';
-import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_viewmodel.dart';
-import 'package:student_management_starter/features/course/presentation/viewmodel/course_viewmodel.dart';
+import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_view_model.dart';
+import 'package:student_management_starter/features/batch/presentation/widgets/show_my_snackbar.dart';
+import 'package:student_management_starter/features/course/presentation/viewmodel/course_view_model.dart';
 import 'package:student_management_starter/features/home/presentation/viewmodel/home_viewmodel.dart';
 import 'package:student_management_starter/features/home/presentation/widget/batch_widget.dart';
 import 'package:student_management_starter/features/home/presentation/widget/course_widget.dart';
@@ -25,7 +25,7 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    var batchState = ref.watch(batchViewmodelProvider);
+    var batchState = ref.watch(batchViewModelProvider);
     var courseState = ref.watch(courseViewModelProvider);
     return Scaffold(
       appBar: AppBar(

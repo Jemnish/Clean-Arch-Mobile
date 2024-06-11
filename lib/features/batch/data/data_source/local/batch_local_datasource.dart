@@ -5,20 +5,20 @@ import 'package:student_management_starter/core/networking/local/hive_service.da
 import 'package:student_management_starter/features/batch/data/model/batch_hive_model.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
 
-// Create provider for BatchLocalDataSoruce
+//  Provider for batch local data source
 final batchLocalDataSourceProvider = Provider(
-  (ref) => BatchLocalDatSource(
-    hiveService: ref.read(hiveServiceProvider), // Passing Hive Service Object
+  (ref) => BatchLocalDataSource(
+    hiveService: ref.read(hiveServiceProvider),
     batchHiveModel:
-        ref.read(batchHiveModelProvider), // Passing BatchHiveModel Object
+        ref.read(batchHiveModelProvider), // passing batchHiveModel object
   ),
 );
 
-class BatchLocalDatSource {
+class BatchLocalDataSource {
   final HiveService hiveService;
   final BatchHiveModel batchHiveModel;
 
-  BatchLocalDatSource({
+  BatchLocalDataSource({
     required this.hiveService,
     required this.batchHiveModel,
   });
@@ -28,6 +28,8 @@ class BatchLocalDatSource {
     try {
       // Convert Entity to Hive Object
       final hiveBatch = batchHiveModel.fromEntity(batch);
+
+      // Convert Hive List to Entry list
       // Add to Hive
       await hiveService.addBatch(hiveBatch);
       return const Right(true);
@@ -39,23 +41,24 @@ class BatchLocalDatSource {
   // Get All Batches
   Future<Either<Failure, List<BatchEntity>>> getAllBatches() async {
     try {
-      // Get All Batches from Hive
+      // Get all Batches from Hive
       final hiveBatches = await hiveService.getAllBatches();
-      // Convert Hive List to Entity List
-      // As the database returns BatchHiveModel
+
+      // Convert Hive List to Entry list
       final batches = batchHiveModel.toEntityList(hiveBatches);
+
       return Right(batches);
     } catch (e) {
       return Left(Failure(error: e.toString()));
     }
   }
 
-
-  // Delete Batch
-  Future<Either<Failure, bool>> deleteBatch(String id) async {
+  Future<Either<Failure, bool>> deleteBatch(BatchEntity batch) async {
     try {
-      // Delete Batch from Hive
-      await hiveService.deleteBatch(id);
+      // Delete batches from Hive
+      final hiveBatch = batchHiveModel.fromEntity(batch);
+
+      await hiveService.deleteBatch(hiveBatch);
       return const Right(true);
     } catch (e) {
       return Left(Failure(error: e.toString()));

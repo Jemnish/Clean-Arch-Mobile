@@ -6,45 +6,41 @@ import 'package:uuid/uuid.dart';
 
 part 'course_hive_model.g.dart';
 
-final courseHiveModelProvider = Provider(
-  (ref) => CourseHiveModel.empty(),
-);
+final courseHiveModelProvider = Provider((ref) => CourseHiveModel.empty());
 
 @HiveType(typeId: HiveTableConstant.courseTableId)
 class CourseHiveModel {
   @HiveField(0)
-  final String courseId;
+  final String? courseId;
 
   @HiveField(1)
   final String courseName;
-
-  // empty constructor
-  CourseHiveModel.empty() : this(courseId: '', courseName: '');
 
   CourseHiveModel({
     String? courseId,
     required this.courseName,
   }) : courseId = courseId ?? const Uuid().v4();
 
-  CourseEntity toEntity() {
-    return CourseEntity(
-      courseId: courseId,
-      courseName: courseName,
-    );
-  }
+  CourseHiveModel.empty()
+      : courseId = '',
+        courseName = '';
 
-  CourseHiveModel fromEntity(CourseEntity entity) {
-    return CourseHiveModel(
-      courseId: entity.courseId,
-      courseName: entity.courseName,
-    );
-  }
+  // Convert hive model to entity
+  CourseEntity toEntity() => CourseEntity(
+        courseName: courseName,
+        courseId: courseId,
+      );
 
-  List<CourseEntity> toEntityList(List<CourseHiveModel> hiveModels) {
-    return hiveModels.map((hiveModel) => hiveModel.toEntity()).toList();
-  }
+  // Convert Entity to hive model
+  CourseHiveModel fromEntity(CourseEntity entity) => CourseHiveModel(
+        courseName: entity.courseName,
+        courseId: entity.courseId,
+      );
 
-  // to hive model
+  // Convert Hive List to Entity list
+  List<CourseEntity> toEntityList(List<CourseHiveModel> models) =>
+      models.map((model) => model.toEntity()).toList();
+
   List<CourseHiveModel> fromEntityList(List<CourseEntity> entities) {
     return entities.map((entity) => fromEntity(entity)).toList();
   }

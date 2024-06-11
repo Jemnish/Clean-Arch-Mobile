@@ -5,10 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
-import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_viewmodel.dart';
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
-import 'package:student_management_starter/features/course/presentation/viewmodel/course_viewmodel.dart';
+import 'package:student_management_starter/features/course/presentation/viewmodel/course_view_model.dart';
+
+import '../../../batch/presentation/viewmodel/batch_view_model.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
@@ -52,15 +55,14 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool isObscure = true;
-
   BatchEntity? _dropDownValue;
   final List<CourseEntity> _lstCourseSelected = [];
 
   @override
   Widget build(BuildContext context) {
-    var batchState = ref.watch(batchViewmodelProvider);
+    var batchState = ref.watch(batchViewModelProvider);
     var courseState = ref.watch(courseViewModelProvider);
+    var authState = ref.watch(authViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -257,17 +259,19 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   _gap,
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: isObscure,
+                    obscureText: authState.obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       suffixIcon: IconButton(
                         icon: Icon(
-                          isObscure ? Icons.visibility : Icons.visibility_off,
+                          authState.obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                         onPressed: () {
-                          setState(() {
-                            isObscure = !isObscure;
-                          });
+                          ref
+                              .read(authViewModelProvider.notifier)
+                              .obsurePassword();
                         },
                       ),
                     ),
@@ -283,7 +287,21 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_key.currentState!.validate()) {}
+                        if (_key.currentState!.validate()) {
+                          // Register
+                          AuthEntity auth = AuthEntity(
+                            fname: _fnameController.text,
+                            lname: _lnameController.text,
+                            phone: _phoneController.text,
+                            batch: _dropDownValue!,
+                            courses: _lstCourseSelected,
+                            username: _usernameController.text,
+                            password: _passwordController.text,
+                          );
+                          ref
+                              .read(authViewModelProvider.notifier)
+                              .addStudent(auth: auth);
+                        }
                       },
                       child: const Text('Register'),
                     ),

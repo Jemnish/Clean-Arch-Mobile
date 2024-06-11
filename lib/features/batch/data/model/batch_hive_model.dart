@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:student_management_starter/app/constants/hive_table_constant.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
 import 'package:uuid/uuid.dart';
@@ -26,19 +26,19 @@ class BatchHiveModel {
       : batchId = '',
         batchName = '';
 
-  // Convert Hive Object to Entity
+// Convert hive model to entity
   BatchEntity toEntity() => BatchEntity(
-        batchId: batchId,
         batchName: batchName,
+        batchId: batchId,
       );
 
-  // Convert Entity to Hive Object
+  // Convert Entity to hive model
   BatchHiveModel fromEntity(BatchEntity entity) => BatchHiveModel(
-        batchId: entity.batchId,
         batchName: entity.batchName,
+        batchId: entity.batchId,
       );
 
-  // Convert Hive List to Entity List
+  // Convert Hive List to Entity list
   List<BatchEntity> toEntityList(List<BatchHiveModel> models) =>
       models.map((model) => model.toEntity()).toList();
 }

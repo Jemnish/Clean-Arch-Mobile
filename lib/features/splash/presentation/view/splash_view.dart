@@ -9,9 +9,17 @@ class SplashView extends ConsumerStatefulWidget {
   ConsumerState<SplashView> createState() => _SplashViewState();
 }
 
+//  Make the splash screen consumer stateless to use initState
 class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
+    // Wait for 2 seconds and then navigate
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //     builder: (context) => const LoginView(),
+    //   ));
+    // });
+    // Calling login view
     ref.read(splashViewModelProvider.notifier).openLoginView();
     super.initState();
   }

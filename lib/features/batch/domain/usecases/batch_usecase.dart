@@ -2,32 +2,28 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
-import 'package:student_management_starter/features/batch/domain/repository/batch_repository.dart';
+import 'package:student_management_starter/features/batch/domain/repository/I_batch_repository.dart';
 
-final batchUsecaseProvider = Provider<BatchUseCase>(
-  (ref) => BatchUseCase(
-    batchRepository: ref.read(batchRepositoryProvider),
-  ),
-);
+final batchUseCaseProvider = Provider<BatchUseCase>((ref) => BatchUseCase(
+      iBatchRepository: ref.read(batchRepositoryProvider),
+    ));
 
 class BatchUseCase {
-  final IBatchRepository batchRepository;
+  final IBatchRepository iBatchRepository;
 
-  BatchUseCase({required this.batchRepository});
+  BatchUseCase({required this.iBatchRepository});
 
-  // For adding a batch
+  // for adding a batch
   Future<Either<Failure, bool>> addBatch(BatchEntity batch) {
-    return batchRepository.addBatch(batch);
+    return iBatchRepository.addBatch(batch);
   }
 
-  // For getting all batches
+  // for getting all batches
   Future<Either<Failure, List<BatchEntity>>> getAllBatches() {
-    return batchRepository.getAllBatches();
+    return iBatchRepository.getAllBatches();
   }
 
-
-  // For deleting a batch
-  Future<Either<Failure, bool>> deleteBatch(String id) {
-    return batchRepository.deleteBatch(id);
+  Future<Either<Failure, bool>> deleteBatch(BatchEntity batch) {
+    return iBatchRepository.deleteBatch(batch);
   }
 }

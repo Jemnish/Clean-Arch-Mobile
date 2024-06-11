@@ -44,6 +44,11 @@ class AppTheme {
         ),
       ),
 
+      iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+        foregroundColor: Colors.white,
+      )),
+
       // Change text field theme
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.all(15),

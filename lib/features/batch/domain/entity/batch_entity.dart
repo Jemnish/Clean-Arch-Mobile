@@ -12,5 +12,3 @@ class BatchEntity extends Equatable {
   @override
   List<Object?> get props => [batchId, batchName];
 }
-
-

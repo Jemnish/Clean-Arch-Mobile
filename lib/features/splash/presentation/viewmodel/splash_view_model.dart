@@ -10,17 +10,18 @@ final splashViewModelProvider =
 class SplashViewModel extends StateNotifier<void> {
   SplashViewModel(this.navigator) : super(null);
 
+// Dependency Injection
   final SplashViewNavigator navigator;
 
-  // Open Login page
+  // Open login page
   void openLoginView() {
+    // Delaying login view opening for 1 secs
     Future.delayed(const Duration(seconds: 1), () {
       navigator.openLoginView();
     });
   }
 
-  // Later on we will add open home page method here as well
   void openHomeView() {
-    // Your code goes here
+    // Open Home View Logic
   }
 }

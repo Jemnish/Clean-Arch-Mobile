@@ -13,8 +13,8 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController(text: 'admin123');
-  final _passwordController = TextEditingController(text: 'admin123');
+  final _usernameController = TextEditingController(text: '');
+  final _passwordController = TextEditingController(text: '');
 
   // final _usernameController = TextEditingController();
   // final _passwordController = TextEditingController();

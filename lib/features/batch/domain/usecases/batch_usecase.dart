@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
-import 'package:student_management_starter/features/batch/domain/repository/I_batch_repository.dart';
+import 'package:student_management_starter/features/batch/domain/repository/batch_repository.dart';
 
 final batchUseCaseProvider = Provider<BatchUseCase>((ref) => BatchUseCase(
       iBatchRepository: ref.read(batchRepositoryProvider),
@@ -23,7 +23,5 @@ class BatchUseCase {
     return iBatchRepository.getAllBatches();
   }
 
-  Future<Either<Failure, bool>> deleteBatch(BatchEntity batch) {
-    return iBatchRepository.deleteBatch(batch);
-  }
+  
 }

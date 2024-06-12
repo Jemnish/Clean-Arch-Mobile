@@ -47,17 +47,5 @@ class BatchViewModel extends StateNotifier<BatchState> {
     });
   }
 
-  // for deleting batch
-  deleteBatch(BatchEntity batch) async {
-    state = state.copyWith(isLoading: true);
-    var data = await batchUseCase.deleteBatch(batch);
-    data.fold((l) {
-      state = state.copyWith(isLoading: false, error: l.error);
-      showMySnackBar(message: l.error, color: Colors.red);
-    }, (r) {
-      state = state.copyWith(isLoading: false, error: null);
-      showMySnackBar(message: 'Batch Deleted Successfully');
-    });
-    getAllBatches();
-  }
+  
 }

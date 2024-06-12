@@ -32,7 +32,6 @@ class BatchApiModel extends Equatable {
   // To Json , write full code without generator
   Map<String, dynamic> toJson() {
     return {
-      '_id': batchId,
       'batchName': batchName,
     };
   }

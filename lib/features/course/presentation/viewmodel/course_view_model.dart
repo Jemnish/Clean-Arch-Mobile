@@ -30,19 +30,7 @@ class CourseViewModel extends StateNotifier<CourseState> {
     getAllCourses();
   }
 
-  deleteCourse(CourseEntity course) async {
-    state = state.copyWith(isLoading: true);
-    var data = await courseUseCase.deleteCourse(course);
-    data.fold((l) {
-      state = state.copyWith(isLoading: false, error: l.error);
-      showMySnackBar(message: l.error, color: Colors.red);
-    }, (r) {
-      state = state.copyWith(isLoading: false, error: null);
-      showMySnackBar(message: 'Course Deleted Successfully');
-    });
-
-    getAllCourses();
-  }
+  
 
   // for getting all courses
   getAllCourses() async {

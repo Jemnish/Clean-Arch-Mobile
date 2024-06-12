@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
-import 'package:student_management_starter/features/course/data/data_source/local/course_local_source.dart';
+import 'package:student_management_starter/features/course/data/data_source/course_local_datasource.dart';
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
 import 'package:student_management_starter/features/course/domain/repository/i_course_repository.dart';
 

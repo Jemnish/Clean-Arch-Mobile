@@ -15,9 +15,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
-
-  // final _usernameController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  
   final _gap = const SizedBox(height: 8);
   bool isObscure = true;
   @override
@@ -45,8 +43,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       key: const ValueKey('username'),
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(), 
                         labelText: 'Username',
+                        suffixIcon: Icon(Icons.person),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -59,10 +58,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     TextFormField(
                       key: const ValueKey('password'),
                       controller: _passwordController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
-                        suffixIcon: IconButton(
-                            icon: const Icon(Icons.password), onPressed: () {}),
+                        suffixIcon: Icon(Icons.password),
                       ),
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
@@ -100,10 +98,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     ElevatedButton(
                       key: const ValueKey('registerButton'),
                       onPressed: () {
-                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        //   builder: (context) => const RegisterView(),
-                        // ));
-
+  
                         ref
                             .read(authViewModelProvider.notifier)
                             .openRegisterView();

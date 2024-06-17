@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/domain/entity/student_entity.dart';
 import 'package:student_management_starter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
@@ -281,7 +281,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       onPressed: () {
                         if (_key.currentState!.validate()) {
                           // Register
-                          AuthEntity auth = AuthEntity(
+                          StudentEntity auth = StudentEntity(
                             fname: _fnameController.text,
                             lname: _lnameController.text,
                             phone: _phoneController.text,
@@ -292,7 +292,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           );
                           ref
                               .read(authViewModelProvider.notifier)
-                              .addStudent(auth: auth);
+                              .registerStudent(auth: auth);
                         }
                       },
                       child: const Text('Register'),

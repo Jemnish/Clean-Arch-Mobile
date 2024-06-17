@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/domain/entity/student_entity.dart';
 import 'package:student_management_starter/features/auth/domain/repository/i_auth_repository.dart';
 
 final authUseCaseProvider = Provider<AuthUseCase>((ref) {
@@ -14,6 +15,10 @@ class AuthUseCase {
   final IAuthRepository authRepository;
 
   AuthUseCase({required this.authRepository});
+
+  Future<Either<Failure, bool>> registerStudent(StudentEntity auth) {
+    return authRepository.registerStudent(auth);
+  }
 
   Future<Either<Failure, bool>> addStudent(AuthEntity auth) {
     return authRepository.addStudent(auth);
@@ -26,6 +31,4 @@ class AuthUseCase {
   Future<Either<Failure, String>> uploadProfilePicture(File file) {
     return authRepository.uploadProfilePicture(file);
   }
-
-  
 }

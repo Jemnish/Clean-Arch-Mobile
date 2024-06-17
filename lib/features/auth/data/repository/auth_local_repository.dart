@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/domain/entity/student_entity.dart';
 import 'package:student_management_starter/features/auth/domain/repository/i_auth_repository.dart';
 
 final authLocalRepository = Provider<IAuthRepository>((ref) {
@@ -29,6 +30,11 @@ class AuthLocalRepository implements IAuthRepository {
 
   @override
   Future<Either<Failure, String>> uploadProfilePicture(File file) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, bool>> registerStudent(StudentEntity auth) {
     throw UnimplementedError();
   }
 }

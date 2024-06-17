@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/domain/entity/student_entity.dart';
 import 'package:student_management_starter/features/auth/domain/usecases/auth_usecase.dart';
 import 'package:student_management_starter/features/auth/presentation/navigator/login_navigator.dart';
 import 'package:student_management_starter/features/auth/presentation/state/auth_state.dart';
@@ -29,6 +30,18 @@ class AuthViewModel extends StateNotifier<AuthState> {
     }, (r) {
       state = state.copyWith(isLoading: false, error: null);
       showMySnackBar(message: 'Student Added Successfully');
+    });
+  }
+
+  void registerStudent({required StudentEntity auth}) async {
+    state = state.copyWith(isLoading: true);
+    var data = await _authUseCase.registerStudent(auth);
+    data.fold((l) {
+      state = state.copyWith(isLoading: false, error: l.error);
+      showMySnackBar(message: l.error, color: Colors.red);
+    }, (r) {
+      state = state.copyWith(isLoading: false, error: null);
+      showMySnackBar(message: 'Student Registered Successfully');
     });
   }
 

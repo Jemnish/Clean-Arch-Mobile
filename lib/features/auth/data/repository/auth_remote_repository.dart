@@ -21,7 +21,7 @@ class AuthRemoteRepository implements IAuthRepository {
   @override
   Future<Either<Failure, bool>> login(String username, String password) {
     throw UnimplementedError();
-  }git
+  }
 
   @override
   Future<Either<Failure, String>> uploadProfilePicture(File? file) {
